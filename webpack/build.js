@@ -3,8 +3,11 @@ import makeWebpackConfig from './makeConfig';
 import webpack from 'webpack';
 
 export default function build(callback) {
-  const config = makeWebpackConfig(false);
-  webpack(config, (fatalError, stats) => {
+  const config = makeWebpackConfig(true);
+  if (typeof callback !== "function") {
+    return webpack(config);
+  }
+  return webpack(config, (fatalError, stats) => {
     const jsonStats = stats.toJson();
 
     // We can save jsonStats to be analyzed with
@@ -28,5 +31,6 @@ export default function build(callback) {
     }));
 
     callback();
+
   });
 }

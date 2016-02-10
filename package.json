@@ -25,6 +25,7 @@
   "homepage": "https://github.com/hhhonzik/react-createjs#readme",
   "dependencies": {
     "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-preset-react-hmre": "^1.1.0",
     "react": "^0.14.7"
   },
   "devDependencies": {
@@ -35,11 +36,14 @@
     "babel-preset-react": "^6.5.0",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
-    "gulp-connect": "^2.3.1",
     "gulp-util": "^3.0.7",
     "gulp-webpack": "^1.5.0",
+    "ip": "^1.1.0",
     "react-dom": "^0.14.7",
+    "run-sequence": "^1.1.5",
     "webpack": "^1.12.13",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-hot-middleware": "^2.7.0",
     "yargs": "^3.32.0"
   }
 }

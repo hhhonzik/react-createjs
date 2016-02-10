@@ -1,8 +1,11 @@
-var gulp = require('gulp');
-var del = require('del');
-var connect = require('gulp-connect');
-var webpack = require('gulp-webpack');
+import gulp from 'gulp';
+import gutil from 'gulp-util';
+import del from 'del';
+import path from 'path';
+import webpack from 'gulp-webpack';
+import WebpackDevServer from 'webpack-dev-server';
 import webpackBuild from './webpack/build';
+import runSequence from 'run-sequence';
 import yargs from 'yargs';
 
 
@@ -30,22 +33,45 @@ gulp.task('build', function () {
 gulp.task('build-webpack', ['env'], webpackBuild);
 gulp.task('build', ['build-webpack']);
 
-gulp.task('serve', function () {
-  connect.server({
-    port: port,
-    livereload: {
-      port: reloadPort
-    }
-  });
+
+gulp.task("server-hot", function(callback) {
+    // Start a webpack-dev-server
+    const compiler = webpackBuild(false); // return compiler
+
+    new WebpackDevServer(compiler, {
+      contentBase: __dirname + '/',
+      hot: true,
+      debug: true,
+      quiet: false,
+      noInfo: false,
+      lazy: true,
+      filename: "[name]-[chunkhash].js",
+      watchOptions: {
+        aggregateTimeout: 300,
+        poll: 1000
+      },
+      headers: { "X-Custom-Header": "yes" },
+      stats: { colors: true }
+    }).listen(8000, "localhost", function(err) {
+      if(err) throw new gutil.PluginError("webpack-dev-server", err);
+      // Server listening
+      gutil.log("[webpack-dev-server]", "http://localhost:8000/webpack-dev-server/index.html");
+
+    });
 });
 
-gulp.task('reload-js', function () {
-  return gulp.src('./build/*.js')
-    .pipe(connect.reload());
+
+gulp.task('start', done => {
+  if (args.production) {
+    runSequence('clean', 'build', done);
+  } else {
+    runSequence('clean', 'build', 'server-hot', done);
+  }
 });
+
 
 gulp.task('watch', function () {
   gulp.watch(['./build/*.js'], ['reload-js']);
 });
 
-gulp.task('default', ['clean', 'build', 'serve', 'watch']);
+gulp.task('default', ['start']);
