@@ -2,20 +2,33 @@ var gulp = require('gulp');
 var del = require('del');
 var connect = require('gulp-connect');
 var webpack = require('gulp-webpack');
-var webpackConfig = require('./webpack.config.js');
+import webpackBuild from './webpack/build';
+import yargs from 'yargs';
 
-var port = process.env.PORT || 8000;
-var reloadPort = process.env.RELOAD_PORT || 35729;
+
+const port = process.env.PORT || 8000;
+const reloadPort = process.env.RELOAD_PORT || 35729;
+
+const args = yargs
+  .alias('p', 'production')
+  .argv;
 
 gulp.task('clean', function () {
   del(['build']);
 });
 
+gulp.task('env', () => {
+  process.env.NODE_ENV = args.production ? 'production' : 'development';
+});
+
 gulp.task('build', function () {
-  return gulp.src(webpackConfig.entry.basic[0])
-    .pipe(webpack(webpackConfig))
+  return gulp.src('examples/basic/app.js')
+    .pipe(webpack(makeConfig(true)))
     .pipe(gulp.dest('build/'));
 });
+
+gulp.task('build-webpack', ['env'], webpackBuild);
+gulp.task('build', ['build-webpack']);
 
 gulp.task('serve', function () {
   connect.server({

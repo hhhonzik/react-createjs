@@ -3,6 +3,7 @@
   "env": {
     "production": {
       "plugins": [
+        "add-module-exports"
       ]
     }
   }
