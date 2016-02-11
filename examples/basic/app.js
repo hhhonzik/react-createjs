@@ -7,7 +7,7 @@ class App extends Component {
   render() {
     return (
     	<div>
-    		<Surface/>a fsdafjklsadfjkl dfas
+    		<Surface/>
     	</div>
     );
   }
