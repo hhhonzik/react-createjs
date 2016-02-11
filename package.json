@@ -4,7 +4,10 @@
   "description": "React implementation of CreateJS canvas rendering.",
   "main": "./dist/react-createjs.js",
   "scripts": {
-    "test": "npm test"
+    "test": "make test",
+    "postinstall": "make build",
+    "build": "make build",
+    "dev": "make dev"
   },
   "repository": {
     "type": "git",
@@ -38,6 +41,11 @@
     "babel-loader": "^6.2.2",
     "eslint": "^1.10.3",
     "eslint-plugin-babel": "^3.1.0",
-    "eslint-plugin-react": "^3.16.1"
+    "eslint-plugin-react": "^3.16.1",
+    "express": "^4.13.3",
+    "react-dom": "^0.14.7",
+    "webpack": "^1.12.9",
+    "webpack-dev-middleware": "^1.4.0",
+    "webpack-hot-middleware": "^2.6.0"
   }
 }

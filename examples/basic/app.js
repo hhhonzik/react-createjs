@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 
 import {Surface} from 'react-createjs';
+console.log(Surface)
 
-class App extends Component {
+export class App extends Component {
   render() {
     return (
     	<div>
@@ -13,4 +13,3 @@ class App extends Component {
   }
 }
 
-ReactDOM.render(<App/>, document.getElementById('main'));
